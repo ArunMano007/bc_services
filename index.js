@@ -1,5 +1,4 @@
 const express = require('express')
-let lng = require('./lang')
 let provider = require('./provider')
 
 const app = express();
@@ -11,9 +10,7 @@ app.use((req, res, next) => {
 });
 app.use(express.json());
 
-app.get('/helloworld', (req, res) => {
-    lng.returnQtyArray(req,res)
-});
+
 
 app.post('/saveProvider',(req,res)=>{
     provider.saveProvider(req,res)
@@ -22,7 +19,14 @@ app.post('/saveProvider',(req,res)=>{
 app.get('/listProviders',(req,res)=>{
     provider.listProviders(req,res)
 });
+let cust = require('./customer')
 
+app.post('/saveCustomer',(req,res)=>{
+    cust.saveCustomer(req,res)
+})
+app.get('/getCustomers',(req,res)=>{
+    cust.getCustomers(req,res)
+})
 app.listen(5001, () => {
     console.log('test Listening on Port 5001');
 });
