@@ -43,7 +43,6 @@ exports.saveCustomer = (req,res)=>{
 
 }
 
-
 exports.getCustomers = (req,res)=>{
     var conLocalPool = db.conLocalPool;
     //opening the connection pool. 

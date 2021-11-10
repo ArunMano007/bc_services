@@ -1,5 +1,8 @@
 const express = require('express')
+let admin =require('./admin')
 let provider = require('./provider')
+let cust = require('./customer')
+
 
 const app = express();
 app.use((req, res, next) => {
@@ -10,8 +13,16 @@ app.use((req, res, next) => {
 });
 app.use(express.json());
 
+// Admin API
+app.post('/adminLogin',(req,res)=>{
+    admin.loginAdmin(req,res)
+});
 
+app.get('/adminDashboard',(req,res)=>{
+    admin.getAdminDashboard(req,res)
+});
 
+//Provider API
 app.post('/saveProvider',(req,res)=>{
     provider.saveProvider(req,res)
 });
@@ -19,8 +30,8 @@ app.post('/saveProvider',(req,res)=>{
 app.get('/listProviders',(req,res)=>{
     provider.listProviders(req,res)
 });
-let cust = require('./customer')
 
+//Customer API
 app.post('/saveCustomer',(req,res)=>{
     cust.saveCustomer(req,res)
 })
