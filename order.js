@@ -11,7 +11,7 @@ exports.getOrders = (req, res) => {
 
     let token =req.query.token
 
-    let str = `call getCustomersByid('${token}')`
+    let str = `call getOrders('${token}')`
     console.log(str);
 
     conLocalPool.getConnection(function (err, con) {
@@ -93,4 +93,41 @@ exports.bookOrder = (req,res)=>{
                 con.release();
             });
         });
+}
+
+//List orders with token id
+exports.orderList = (req, res) => {
+    var conLocalPool = db.conLocalPool;
+
+    let token = req.body.token;
+
+
+    let Response = {
+        "status": "", "message": "", data: ""
+    }
+
+    let str = `call orderList('${token}')`
+    conLocalPool.getConnection(function (err, con) {
+        if (err) {
+            if (con)
+                con.release();
+            Response.status = "ERR"; Response.message = "Connection Error"
+            res.send(Response);
+            return;
+        }
+        con.query(str, function (err, rows, fields) {
+            if (err) {
+                Response.status = "ERR"; Response.message = "Query Error"
+                res.send(Response);
+            }
+            else {
+
+                Response.status = "Success"; Response.message = "Listed Successfully";
+                Response.data = rows
+                res.send(Response);
+            }
+            con.release();
+
+        });
+    });
 }

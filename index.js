@@ -37,6 +37,10 @@ app.post('/saveProvider',(req,res)=>{
     provider.saveProvider(req,res)
 });
 
+app.post('/updateProviderProfile',(req,res)=>{
+    provider.updateProviderProfile(req,res)
+});
+
 app.get('/listProviders',(req,res)=>{
     provider.listProviders(req,res)
 });
@@ -61,8 +65,13 @@ app.post('/UpdateCustomerProfile',(req,res)=>{
 });
 
 //Order API
+
 app.get('/getOrders',(req,res)=>{
     ord.getOrders(req,res)
+})
+
+app.get('/orderList',(req,res)=>{
+    ord.orderList(req,res)
 })
 
 app.post('/bookorder',(req,res)=>{

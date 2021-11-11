@@ -1,11 +1,11 @@
 let db = require('./dbconnect')
 
-exports.loginProvider = (req,res)=>{
-var conLocalPool = db.conLocalPool; 
+exports.loginProvider = (req, res) => {
+    var conLocalPool = db.conLocalPool;
 
-    let mobile = req.body.mobile; 
-    let password = req.body.password; 
-    
+    let mobile = req.body.mobile;
+    let password = req.body.password;
+
     let Response = {
         "status": "", "message": "", data: ""
     }
@@ -25,15 +25,14 @@ var conLocalPool = db.conLocalPool;
                 res.send(Response);
             }
             else {
-                if(rows[0][0].Result=="Failure")
-                {
+                if (rows[0][0].Result == "Failure") {
                     Response.status = "Failure"; Response.message = "Invalid Credentials"
-                    Response.data=rows[0][0].Result
+                    Response.data = rows[0][0].Result
                     res.send(Response);
                 }
-                else{
+                else {
                     Response.status = "Success"; Response.message = "Login Successfully"
-                    Response.data=rows[0][0].Result
+                    Response.data = rows[0][0].Result
                     res.send(Response);
                 }
 
@@ -119,87 +118,99 @@ exports.listProviders = (req, res) => {
     });
 }
 
-exports.getMyProfile = (req,res)=>{
-    var conLocalPool = db.conLocalPool; 
-    
-        let token = req.body.token; 
-        
-        
-        let Response = {
-            "status": "", "message": "", data: ""
-        }
-    
-        let str = `call viewProfile('${token}')`
-        conLocalPool.getConnection(function (err, con) {
-            if (err) {
-                if (con)
-                    con.release();
-                Response.status = "ERR"; Response.message = "Connection Error"
-                res.send(Response);
-                return;
-            }
-            con.query(str, function (err, rows, fields) {
-                if (err) {
-                    Response.status = "ERR"; Response.message = "Query Error"
-                    res.send(Response);
-                }
-                else {
-                    if(rows[0].length ==1){
-                        Response.status = "Success"; Response.message = "Fetch Successfully"
-                        Response.data=rows[0][0]
-                        let photo = JSON.parse( rows[0][0].photo)
+exports.getMyProfile = (req, res) => {
+    var conLocalPool = db.conLocalPool;
 
-                        Response.data.photo =photo[0].image;
+    let token = req.body.token;
 
 
-                        res.send(Response);   
-                    }else{
-                        Response.status = "Failure"; Response.message = "Invalid Token"
-                      
-                        res.send(Response);
-                    }
-
-                    
-    
-                }
-                con.release();
-    
-            });
-        });
+    let Response = {
+        "status": "", "message": "", data: ""
     }
-//List orders with token id
-exports.orderList = (req,res)=>{
-    var conLocalPool = db.conLocalPool; 
-    
-        let token = req.body.token; 
-        
-        
-        let Response = {
-            "status": "", "message": "", data: ""
+
+    let str = `call viewProfile('${token}')`
+    conLocalPool.getConnection(function (err, con) {
+        if (err) {
+            if (con)
+                con.release();
+            Response.status = "ERR"; Response.message = "Connection Error"
+            res.send(Response);
+            return;
         }
-    
-        let str = `call orderList('${token}')`
-        conLocalPool.getConnection(function (err, con) {
+        con.query(str, function (err, rows, fields) {
             if (err) {
-                if (con)
-                    con.release();
-                Response.status = "ERR"; Response.message = "Connection Error"
+                Response.status = "ERR"; Response.message = "Query Error"
                 res.send(Response);
-                return;
             }
-            con.query(str, function (err, rows, fields) {
-                if (err) {
-                    Response.status = "ERR"; Response.message = "Query Error"
+            else {
+                if (rows[0].length == 1) {
+                    Response.status = "Success"; Response.message = "Fetch Successfully"
+                    Response.data = rows[0][0]
+                    let photo = JSON.parse(rows[0][0].photo)
+
+                    Response.data.photo = photo[0].image;
+
+
+                    res.send(Response);
+                } else {
+                    Response.status = "Failure"; Response.message = "Invalid Token"
+
+                    res.send(Response);
+                }
+
+
+
+            }
+            con.release();
+
+        });
+    });
+}
+
+exports.updateProviderProfile = (req, res) => {
+    var conLocalPool = db.conLocalPool;
+    //opening the connection pool. 
+    var Response = {
+        "status": "",
+        "data": ""
+    }
+    //defining the return object 
+    var token = req.body.token;
+    var username = req.body.username;
+    var photo = req.body.photo;
+    var video = req.body.video;
+    var hourlyrate = req.body.hourlyrate;
+
+
+    let str = `call updateProviderProfile('${token}','${username}','${photo}','${video}','${hourlyrate}')`
+    console.log(str)
+    conLocalPool.getConnection(function (err, con) {
+        if (err) {
+            if (con)
+                con.release();
+            Response.status = "ERR"; Response.data = "Connection Error"
+            res.send(Response);
+            return;
+        }
+        con.query(str, function (err, rows, fields) {
+            if (err) {
+                Response.status = "ERR"; Response.data = "Query Error"
+                res.send(Response);
+            }
+            else {
+                if (rows[0][0].Result == "Failure") {
+                    Response.status = "Failure"; Response.message = "Token Failure"
+                    Response.data = rows[0][0].Result
                     res.send(Response);
                 }
                 else {
-    
-                    Response.status = "Success"; Response.message = "Listed Successfully";
+                    Response.status = "Success"; Response.message = "Customer Updated Successfully"
                     Response.data = rows
                     res.send(Response);
                 }
-                con.release();
-    
-            });
+            }
+            con.release();
+
         });
-    }
+    });
+}
