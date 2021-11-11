@@ -42,6 +42,9 @@ app.get('/listProviders',(req,res)=>{
 });
 
 //Customer API
+app.post('/CustomerLogin',(req,res)=>{
+    provider.CustomerLogin(req,res)
+})
 app.post('/saveCustomer',(req,res)=>{
     cust.saveCustomer(req,res)
 })
@@ -55,5 +58,4 @@ app.get('/getOrders',(req,res)=>{
 })
 
 app.listen(5001, () => {
-    console.log('test Listening on Port 5001');
-});
+    console.log('test Listening on Port 5001')});
