@@ -52,17 +52,17 @@ app.get('/getCustomers',(req,res)=>{
     cust.getCustomers(req,res)
 })
 
+app.get('/getCustomersByid',(req,res)=>{
+    cust.getCustomersByid(req,res)
+});
+
 //Order API
 app.get('/getOrders',(req,res)=>{
     ord.getOrders(req,res)
 })
 
-app.get('/getCustomersByid',(req,res)=>{
-    cust.getCustomersByid(req,res)
-});
-
 app.post('/bookorder',(req,res)=>{
-    cust.bookOrder(req,res)
+    ord.bookOrder(req,res)
 });
 
 app.listen(5001, () => {
