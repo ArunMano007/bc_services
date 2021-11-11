@@ -193,23 +193,10 @@ exports.orderList = (req,res)=>{
                     res.send(Response);
                 }
                 else {
-                    if(rows[0].length ==1){
-                        Response.status = "Success"; Response.message = "Fetch Successfully"
-                        Response.data=rows[0][0]
-                        let photo = JSON.parse( rows[0][0].photo)
-
-                        Response.data.photo =photo[0].image;
-
-
-                        res.send(Response);   
-                    }else{
-                        Response.status = "Failure"; Response.message = "Invalid Token"
-                      
-                        res.send(Response);
-                    }
-
-                    
     
+                    Response.status = "Success"; Response.message = "Listed Successfully";
+                    Response.data = rows
+                    res.send(Response);
                 }
                 con.release();
     
