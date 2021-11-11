@@ -40,6 +40,9 @@ app.get('/listProviders',(req,res)=>{
     provider.listProviders(req,res)
 });
 
+app.get('/orderList',(req,res)=>{
+    provider.orderList(req,res)
+});
 //Customer API
 app.post('/saveCustomer',(req,res)=>{
     cust.saveCustomer(req,res)
