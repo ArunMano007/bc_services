@@ -10,7 +10,7 @@ exports.loginCustomer = (req,res)=>{
         "status": "", "message": "", data: ""
     }
 
-    let str = `call CustomerLogin('${mobile}','${password}')`
+    let str = `call CustomerLogin('${phone}','${password}')`
     conLocalPool.getConnection(function (err, con) {
         if (err) {
             if (con)
