@@ -2,6 +2,7 @@ const express = require('express')
 let admin =require('./admin')
 let provider = require('./provider')
 let cust = require('./customer')
+let ord = require('./order')
 
 
 const app = express();
@@ -50,7 +51,12 @@ app.post('/saveCustomer',(req,res)=>{
 })
 app.get('/getCustomers',(req,res)=>{
     cust.getCustomers(req,res)
-});
+})
+
+//Order API
+app.get('/getOrders',(req,res)=>{
+    ord.getOrders(req,res)
+})
 
 app.listen(5001, () => {
     console.log('test Listening on Port 5001')});
