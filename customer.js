@@ -1,5 +1,49 @@
 let db = require('./dbconnect')
 
+exports.loginCustomer = (req,res)=>{
+    var conLocalPool = db.conLocalPool;
+    
+    let phone = req.body.phone;
+    let password = req.body.password;
+
+    let Response = {
+        "status": "", "message": "", data: ""
+    }
+
+    let str = `call CustomerLogin('${mobile}','${password}')`
+    conLocalPool.getConnection(function (err, con) {
+        if (err) {
+            if (con)
+                con.release();
+            Response.status = "ERR"; Response.message = "Connection Error"
+            res.send(Response);
+            return;
+        }
+        con.query(str, function (err, rows, fields) {
+            if (err) {
+                Response.status = "ERR"; Response.message = "Query Error"
+                res.send(Response);
+            }
+            else {
+                if(rows[0][0].Result=="Failure")
+                {
+                    Response.status = "Failure"; Response.message = "Invalid Credentials"
+                    Response.data=rows[0][0].Result
+                    res.send(Response);
+                }
+                else{
+                    Response.status = "Success"; Response.message = "Login Successfully"
+                    Response.data=rows[0][0].Result
+                    res.send(Response);
+                }
+
+            }
+            con.release();
+
+        });
+    });
+
+}
 exports.saveCustomer = (req,res)=>{
     var conLocalPool = db.conLocalPool;
     //opening the connection pool. 

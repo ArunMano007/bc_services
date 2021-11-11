@@ -41,6 +41,9 @@ app.get('/listProviders',(req,res)=>{
 });
 
 //Customer API
+app.post('/CustomerLogin',(req,res)=>{
+    provider.CustomerLogin(req,res)
+})
 app.post('/saveCustomer',(req,res)=>{
     cust.saveCustomer(req,res)
 })
