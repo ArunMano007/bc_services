@@ -18,11 +18,20 @@ app.post('/adminLogin',(req,res)=>{
     admin.loginAdmin(req,res)
 });
 
+
 app.get('/adminDashboard',(req,res)=>{
     admin.getAdminDashboard(req,res)
 });
 
 //Provider API
+app.post('/loginProvider',(req,res)=>{
+    provider.loginProvider(req,res)
+})
+
+app.post('/getProviderProfile',(req,res)=>{
+    provider.getMyProfile(req,res)
+})
+
 app.post('/saveProvider',(req,res)=>{
     provider.saveProvider(req,res)
 });
