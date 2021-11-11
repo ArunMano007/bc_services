@@ -167,3 +167,52 @@ exports.getMyProfile = (req,res)=>{
             });
         });
     }
+//List orders with token id
+exports.orderList = (req,res)=>{
+    var conLocalPool = db.conLocalPool; 
+    
+        let token = req.body.token; 
+        
+        
+        let Response = {
+            "status": "", "message": "", data: ""
+        }
+    
+        let str = `call orderList('${token}')`
+        conLocalPool.getConnection(function (err, con) {
+            if (err) {
+                if (con)
+                    con.release();
+                Response.status = "ERR"; Response.message = "Connection Error"
+                res.send(Response);
+                return;
+            }
+            con.query(str, function (err, rows, fields) {
+                if (err) {
+                    Response.status = "ERR"; Response.message = "Query Error"
+                    res.send(Response);
+                }
+                else {
+                    if(rows[0].length ==1){
+                        Response.status = "Success"; Response.message = "Fetch Successfully"
+                        Response.data=rows[0][0]
+                        let photo = JSON.parse( rows[0][0].photo)
+
+                        Response.data.photo =photo[0].image;
+
+
+                        res.send(Response);   
+                    }else{
+                        Response.status = "Failure"; Response.message = "Invalid Token"
+                      
+                        res.send(Response);
+                    }
+
+                    
+    
+                }
+                con.release();
+    
+            });
+        });
+    }

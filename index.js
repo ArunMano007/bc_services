@@ -49,7 +49,7 @@ app.post('/saveCustomer',(req,res)=>{
 })
 app.get('/getCustomers',(req,res)=>{
     cust.getCustomers(req,res)
-})
-app.listen(5001, () => {
-    console.log('test Listening on Port 5001');
 });
+
+app.listen(5001, () => {
+    console.log('test Listening on Port 5001')});
