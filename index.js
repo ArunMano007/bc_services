@@ -2,6 +2,7 @@ const express = require('express')
 let admin =require('./admin')
 let provider = require('./provider')
 let cust = require('./customer')
+let ord = require('./order')
 
 
 const app = express();
@@ -49,7 +50,12 @@ app.post('/saveCustomer',(req,res)=>{
 })
 app.get('/getCustomers',(req,res)=>{
     cust.getCustomers(req,res)
-});
+})
+
+//Order API
+app.get('/getOrders',(req,res)=>{
+    ord.getOrders(req,res)
+})
 
 app.get('/getCustomersByid',(req,res)=>{
     cust.getCustomersByid(req,res)
