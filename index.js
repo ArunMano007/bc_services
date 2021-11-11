@@ -42,13 +42,21 @@ app.get('/listProviders',(req,res)=>{
 
 //Customer API
 app.post('/CustomerLogin',(req,res)=>{
-    provider.CustomerLogin(req,res)
+    cust.loginCustomer(req,res)
 })
 app.post('/saveCustomer',(req,res)=>{
     cust.saveCustomer(req,res)
 })
 app.get('/getCustomers',(req,res)=>{
     cust.getCustomers(req,res)
+});
+
+app.get('/getCustomersByid',(req,res)=>{
+    cust.getCustomersByid(req,res)
+});
+
+app.post('/bookorder',(req,res)=>{
+    cust.bookOrder(req,res)
 });
 
 app.listen(5001, () => {

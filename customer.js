@@ -10,7 +10,7 @@ exports.loginCustomer = (req,res)=>{
         "status": "", "message": "", data: ""
     }
 
-    let str = `call CustomerLogin('${mobile}','${password}')`
+    let str = `call CustomerLogin('${phone}','${password}')`
     conLocalPool.getConnection(function (err, con) {
         if (err) {
             if (con)
@@ -82,9 +82,6 @@ exports.saveCustomer = (req,res)=>{
     
             });
         });
-
-
-
 }
 
 exports.getCustomers = (req,res)=>{
@@ -95,8 +92,6 @@ exports.getCustomers = (req,res)=>{
         "data":""
     }
     //defining the return object 
-    
-
     let str = `Select * from customers where isactive = 1`
 
         conLocalPool.getConnection(function (err, con) {
@@ -121,10 +116,98 @@ exports.getCustomers = (req,res)=>{
     
             });
         });
-
-
-
 }
 
-//Login 
+exports.getCustomersByid = (req,res)=>{
+    var conLocalPool = db.conLocalPool;
+    //opening the connection pool. 
+    var Response={
+        "status":"", 
+        "data":""
+    }
+    let token =req.query.token
+
+    let str = `call getCustomersByid('${token}')`
+    console.log(str);
+        conLocalPool.getConnection(function (err, con) {
+            if (err) {
+                if (con)
+                    con.release();
+                Response.status = "ERR"; Response.data = "Connection Error"
+                res.send(Response);
+                return;
+            }
+            con.query(str, function (err, rows, fields) {
+                if (err) {
+                    Response.status = "ERR"; Response.data = "Query Error"
+                    res.send(Response);
+                }
+                else {
+                    if(rows[0][0].Result=="Failure")
+                    {
+                        Response.status = "Failure"; Response.message = "Token Failure"
+                        Response.data=rows[0][0].Result
+                        res.send(Response);
+                    }
+                    else{
+                        Response.status = "Success"; Response.message = "Get Customer"
+                        Response.data=rows
+                        res.send(Response);
+                    }    
+                }
+                con.release();
+            });
+        });
+}
+
+
+exports.bookOrder = (req,res)=>{
+    var conLocalPool = db.conLocalPool;
+    //opening the connection pool. 
+    var Response={
+        "status":"", 
+        "data":""
+    }
+    let token =req.body.token
+    let providerid =req.body.providerid
+    let providertype =req.body.providertype
+    let providername =req.body.providername
+    let amount =req.body.amount
+    let servicetime =req.body.servicetime
+    let duration =req.body.duration
+
+    let str = `call bookOrder('${token}','${providerid}','${providertype}','${providername}','${amount}'
+    ,'${servicetime}','${duration}')`
+    console.log(str);
+        conLocalPool.getConnection(function (err, con) {
+            if (err) {
+                if (con)
+                    con.release();
+                Response.status = "ERR"; Response.data = "Connection Error"
+                res.send(Response);
+                return;
+            }
+            con.query(str, function (err, rows, fields) {
+                if (err) {
+                    Response.status = "ERR"; Response.data = "Query Error"
+                    res.send(Response);
+                }
+                else {
+                    if(rows[0][0].Result=="Failure")
+                    {
+                        Response.status = "Failure"; Response.message = "Token Failure"
+                        Response.data=rows[0][0].Result
+                        res.send(Response);
+                    }
+                    else{
+                        Response.status = "Success"; Response.message = "Ordered successfully"
+                        Response.data=rows[0][0].Result
+                        res.send(Response);
+                    }    
+                }
+                con.release();
+            });
+        });
+}
+
 
