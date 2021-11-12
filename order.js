@@ -148,7 +148,6 @@ exports.updateOrder = (req, res) => {
         "status": "", "message": "", data: ""
     }
 
-    let str = `call orderList('${token}')`
     conLocalPool.getConnection(function (err, con) {
         if (err) {
             if (con)
