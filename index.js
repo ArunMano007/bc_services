@@ -52,12 +52,12 @@ app.get('/getCustomers',(req,res)=>{
     cust.getCustomers(req,res)
 })
 
-app.get('/getCustomersByid',(req,res)=>{
+app.post('/getCustomersByid',(req,res)=>{
     cust.getCustomersByid(req,res)
 });
 
 //Order API
-app.get('/getOrders',(req,res)=>{
+app.post('/getOrders',(req,res)=>{
     ord.getOrders(req,res)
 })
 

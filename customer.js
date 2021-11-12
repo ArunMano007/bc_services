@@ -125,7 +125,7 @@ exports.getCustomersByid = (req,res)=>{
         "status":"", 
         "data":""
     }
-    let token =req.query.token
+    let token =req.body.token
 
     let str = `call getCustomersByid('${token}')`
     console.log(str);

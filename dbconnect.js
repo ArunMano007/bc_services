@@ -12,3 +12,4 @@ var config = {
 
 var conLocalPool = mysql.createPool(config);
 exports.conLocalPool = conLocalPool;
+

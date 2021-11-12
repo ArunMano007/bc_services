@@ -9,7 +9,7 @@ exports.getOrders = (req, res) => {
     }
     //defining the return object 
 
-    let token =req.query.token
+    let token =req.body.token
 
     let str = `call getCustomersByid('${token}')`
     console.log(str);
