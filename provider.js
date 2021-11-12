@@ -192,11 +192,12 @@ exports.updateProviderProfile = (req, res) => {
             res.send(Response);
             return;
         }
+        
         con.query(str, function (err, rows, fields) {
             if (err) {
                 Response.status = "ERR"; Response.data = "Query Error"
                 res.send(Response);
-            }
+            } 
             else {
                 if (rows[0][0].Result == "Failure") {
                     Response.status = "Failure"; Response.message = "Token Failure"
