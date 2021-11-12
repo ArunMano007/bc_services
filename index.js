@@ -37,6 +37,10 @@ app.post('/saveProvider',(req,res)=>{
     provider.saveProvider(req,res)
 });
 
+app.post('/updateProviderProfile',(req,res)=>{
+    provider.updateProviderProfile(req,res)
+});
+
 app.get('/listProviders',(req,res)=>{
     provider.listProviders(req,res)
 });
@@ -45,8 +49,8 @@ app.get('/listProviders',(req,res)=>{
 app.post('/CustomerLogin',(req,res)=>{
     cust.loginCustomer(req,res)
 })
-app.post('/saveCustomer',(req,res)=>{
-    cust.saveCustomer(req,res)
+app.post('/registerCustomer',(req,res)=>{
+    cust.registerCustomer(req,res)
 })
 app.get('/getCustomers',(req,res)=>{
     cust.getCustomers(req,res)
@@ -56,13 +60,25 @@ app.post('/getCustomersByid',(req,res)=>{
     cust.getCustomersByid(req,res)
 });
 
+app.post('/UpdateCustomerProfile',(req,res)=>{
+    cust.UpdateCustomerProfile(req,res)
+});
+
 //Order API
 app.post('/getOrders',(req,res)=>{
     ord.getOrders(req,res)
 })
 
+app.post('/orderList',(req,res)=>{
+    ord.orderList(req,res)
+})
+
 app.post('/bookorder',(req,res)=>{
     ord.bookOrder(req,res)
+});
+
+app.post('/updateorder',(req,res)=>{
+    ord.updateOrder(req,res)
 });
 
 app.listen(5001, () => {

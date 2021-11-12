@@ -44,7 +44,7 @@ exports.loginCustomer = (req,res)=>{
     });
 
 }
-exports.saveCustomer = (req,res)=>{
+exports.registerCustomer = (req,res)=>{
     var conLocalPool = db.conLocalPool;
     //opening the connection pool. 
     var Response={
@@ -52,13 +52,14 @@ exports.saveCustomer = (req,res)=>{
         "data":""
     }
     //defining the return object 
-    var username = req.body.username; 
+    var username = req.body.username;
+    var mobile = req.body.mobile;
+    var password = req.body.password;  
     var address = req.body.address; 
     var location = req.body.location; 
-    var mobile = req.body.mobile; 
+    
 
-    let str = `insert into customers (username,address, location,mobile) 
-        values ('${username}','${address}','${location}','${mobile}')`
+    let str = `call registerCustomer('${username}','${mobile}','${password}','${address}','${location}')`
 
         conLocalPool.getConnection(function (err, con) {
             if (err) {
@@ -75,7 +76,7 @@ exports.saveCustomer = (req,res)=>{
                 }
                 else {
     
-                    Response.status = "Success"; Response.data = "Inserted Successfully"
+                    Response.status = "Success"; Response.data = rows[0][0].Result
                     res.send(Response);
                 }
                 con.release();
@@ -156,6 +157,56 @@ exports.getCustomersByid = (req,res)=>{
                     }    
                 }
                 con.release();
+            });
+        });
+}
+
+exports.UpdateCustomerProfile = (req,res)=>{
+    var conLocalPool = db.conLocalPool;
+    //opening the connection pool. 
+    var Response={
+        "status":"", 
+        "data":""
+    }
+    //defining the return object 
+    var token = req.body.token;
+    var username = req.body.username;
+    var mobile = req.body.mobile;
+    var photo = req.body.photo;  
+    var address = req.body.address; 
+    var location = req.body.location; 
+    
+
+    let str = `call UpdateCustomerProfile('${token}','${username}','${mobile}','${photo}','${address}','${location}')`
+
+        conLocalPool.getConnection(function (err, con) {
+            if (err) {
+                if (con)
+                    con.release();
+                Response.status = "ERR"; Response.data = "Connection Error"
+                res.send(Response);
+                return;
+            }
+            con.query(str, function (err, rows, fields) {
+                if (err) {
+                    Response.status = "ERR"; Response.data = "Query Error"
+                    res.send(Response);
+                }
+                else {
+                    if(rows[0][0].Result=="Failure")
+                    {
+                        Response.status = "Failure"; Response.message = "Token Failure"
+                        Response.data=rows[0][0].Result
+                        res.send(Response);
+                    }
+                    else{
+                        Response.status = "Success"; Response.message = "Customer Updated Successfully"
+                        Response.data=rows
+                        res.send(Response);
+                    }    
+                }
+                con.release();
+    
             });
         });
 }
