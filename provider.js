@@ -146,9 +146,9 @@ exports.getMyProfile = (req, res) => {
                 if (rows[0].length == 1) {
                     Response.status = "Success"; Response.message = "Fetch Successfully"
                     Response.data = rows[0][0]
-                    let photo = JSON.parse(rows[0][0].photo)
+                    //let photo = JSON.parse(rows[0][0].photo)
 
-                    Response.data.photo = photo[0].image;
+                   // Response.data.photo = photo[0].image;
 
 
                     res.send(Response);
