@@ -1,5 +1,7 @@
 let db = require('./dbconnect')
 
+// Get order for customer
+
 exports.getOrders = (req, res) => {
     var conLocalPool = db.conLocalPool;
     //opening the connection pool. 
@@ -9,7 +11,7 @@ exports.getOrders = (req, res) => {
     }
     //defining the return object 
 
-    let token =req.query.token
+    let token =req.body.token
 
     let str = `call getOrders('${token}')`
     console.log(str);
@@ -100,6 +102,46 @@ exports.orderList = (req, res) => {
     var conLocalPool = db.conLocalPool;
 
     let token = req.body.token;
+
+
+    let Response = {
+        "status": "", "message": "", data: ""
+    }
+
+    let str = `call orderList('${token}')`
+    conLocalPool.getConnection(function (err, con) {
+        if (err) {
+            if (con)
+                con.release();
+            Response.status = "ERR"; Response.message = "Connection Error"
+            res.send(Response);
+            return;
+        }
+        con.query(str, function (err, rows, fields) {
+            if (err) {
+                Response.status = "ERR"; Response.message = "Query Error"
+                res.send(Response);
+            }
+            else {
+
+                Response.status = "Success"; Response.message = "Listed Successfully";
+                Response.data = rows
+                res.send(Response);
+            }
+            con.release();
+
+        });
+    });
+}
+
+exports.updateOrder = (req, res) => {
+    var conLocalPool = db.conLocalPool;
+
+    let orderid = req.body.orderid
+    let active = req.body.active
+    
+
+    let str = `update orders set isactive=${active} where orderid=${orderid}`
 
 
     let Response = {

@@ -66,16 +66,20 @@ app.post('/UpdateCustomerProfile',(req,res)=>{
 
 //Order API
 
-app.get('/getOrders',(req,res)=>{
+app.post('/getOrders',(req,res)=>{
     ord.getOrders(req,res)
 })
 
-app.get('/orderList',(req,res)=>{
+app.post('/orderList',(req,res)=>{
     ord.orderList(req,res)
 })
 
 app.post('/bookorder',(req,res)=>{
     ord.bookOrder(req,res)
+});
+
+app.post('/updateorder',(req,res)=>{
+    ord.updateOrder(req,res)
 });
 
 app.listen(5001, () => {
