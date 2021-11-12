@@ -44,48 +44,54 @@ exports.loginProvider = (req, res) => {
   });
 };
 
-exports.saveProvider = (req, res) => {
-  let functionname = "saveProvider";
-
+exports.registerProvider = (req,res)=>{
   var conLocalPool = db.conLocalPool;
-  let Response = {
-    status: "",
-    message: "",
-    data: "",
-  };
-  let nm = req.body.name;
-  let pass = req.body.password;
-  let ad = req.body.address;
-  let ph = req.body.mobile;
-  let service = req.body.service;
-  // let hourlyrate = req.body.hourlyrate
+  //opening the connection pool. 
+  var Response={
+      "status":"", 
+      "data":""
+  }
+  //defining the return object 
+  var username = req.body.username;
+  var mobile = req.body.mobile;
+  var password = req.body.password;  
+  var address = req.body.address; 
+  var service = req.body.service; 
+  
 
-  let str = `insert into provider (username,address,service,mobile,password) 
-    values ('${nm}','${ad}','${service}','${ph}','${pass}')`;
+  let str = `call registerProvider('${username}','${mobile}','${password}','${address}','${service}')`
 
-  console.log(str);
-  conLocalPool.getConnection(function (err, con) {
-    if (err) {
-      if (con) con.release();
-      Response.status = "ERR";
-      Response.message = "Connection Error";
-      res.send(Response);
-      return;
-    }
-    con.query(str, function (err, rows, fields) {
-      if (err) {
-        Response.status = "ERR";
-        Response.message = "Query Error";
-        res.send(Response);
-      } else {
-        Response.status = "Success";
-        Response.message = "Inserted Successfully";
-        res.send(Response);
-      }
-      con.release();
-    });
-  });
-};
+      conLocalPool.getConnection(function (err, con) {
+          if (err) {
+              if (con)
+                  con.release();
+              Response.status = "ERR"; Response.data = "Connection Error"
+              res.send(Response);
+              return;
+          }
+          con.query(str, function (err, rows, fields) {
+              if (err) {
+                  Response.status = "ERR"; Response.data = "Query Error"
+                  res.send(Response);
+              }
+              else {
+                if (rows[0][0].Result == "Failure") {
+                  Response.status = "Failure";
+                  Response.message = "Account Already exists";
+                  Response.data = rows[0][0].Result;
+                  res.send(Response);
+                } else {
+                  Response.status = "Success";
+                  Response.message = "Registered Successfully";
+                  Response.data = rows[0][0].Result;
+                  res.send(Response);
+                }
+              }
+              con.release();
+  
+          });
+      });
+}
 
 exports.listProviders = (req, res) => {
   var conLocalPool = db.conLocalPool;

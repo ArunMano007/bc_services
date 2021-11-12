@@ -34,7 +34,7 @@ app.post('/getProviderProfile',(req,res)=>{
 })
 
 app.post('/saveProvider',(req,res)=>{
-    provider.saveProvider(req,res)
+    provider.registerProvider(req,res)
 });
 
 app.post('/updateProviderProfile',(req,res)=>{

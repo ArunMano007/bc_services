@@ -75,10 +75,18 @@ exports.registerCustomer = (req,res)=>{
                     res.send(Response);
                 }
                 else {
-    
-                    Response.status = "Success"; Response.data = rows[0][0].Result
-                    res.send(Response);
-                }
+                    if (rows[0][0].Result == "Failure") {
+                      Response.status = "Failure";
+                      Response.message = "Account Already exists";
+                      Response.data = rows[0][0].Result;
+                      res.send(Response);
+                    } else {
+                      Response.status = "Success";
+                      Response.message = "Registered Successfully";
+                      Response.data = rows[0][0].Result;
+                      res.send(Response);
+                    }
+                  }
                 con.release();
     
             });
