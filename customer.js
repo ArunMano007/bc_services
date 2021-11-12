@@ -28,12 +28,12 @@ exports.loginCustomer = (req,res)=>{
                 if(rows[0][0].result=="Failure")
                 {
                     Response.status = "Failure"; Response.message = "Invalid Credentials"
-                    Response.data=rows[0][0].Result
+                    Response.data=rows[0][0].result
                     res.send(Response);
                 }
                 else{
                     Response.status = "Success"; Response.message = "Login Successfully"
-                    Response.data=rows[0][0].Result
+                    Response.data=rows[0][0].result
                     res.send(Response);
                 }
 
@@ -78,12 +78,12 @@ exports.registerCustomer = (req,res)=>{
                     if (rows[0][0].result == "Failure") {
                       Response.status = "Failure";
                       Response.message = "Account Already exists";
-                      Response.data = rows[0][0].Result;
+                      Response.data = rows[0][0].result;
                       res.send(Response);
                     } else {
                       Response.status = "Success";
                       Response.message = "Registered Successfully";
-                      Response.data = rows[0][0].Result;
+                      Response.data = rows[0][0].result;
                       res.send(Response);
                     }
                   }
@@ -152,10 +152,10 @@ exports.getCustomersByid = (req,res)=>{
                     res.send(Response);
                 }
                 else {
-                    if(rows[0][0].Result=="Failure")
+                    if(rows[0][0].result=="Failure")
                     {
                         Response.status = "Failure"; Response.message = "Token Failure"
-                        Response.data=rows[0][0].Result
+                        Response.data=rows[0][0].result
                         res.send(Response);
                     }
                     else{
@@ -201,10 +201,10 @@ exports.UpdateCustomerProfile = (req,res)=>{
                     res.send(Response);
                 }
                 else {
-                    if(rows[0][0].Result=="Failure")
+                    if(rows[0][0].result=="Failure")
                     {
                         Response.status = "Failure"; Response.message = "Token Failure"
-                        Response.data=rows[0][0].Result
+                        Response.data=rows[0][0].result
                         res.send(Response);
                     }
                     else{

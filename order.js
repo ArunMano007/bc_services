@@ -13,7 +13,7 @@ exports.getOrders = (req, res) => {
 
     let token =req.body.token
 
-    let str = `call getOrders('${token}')`
+    let str = `call getOrders('${token}')`;
     console.log(str);
 
     conLocalPool.getConnection(function (err, con) {
@@ -31,10 +31,10 @@ exports.getOrders = (req, res) => {
             }
             else
             {
-                if(rows[0][0].Result=="Failure")
+                if(rows[0][0].result=="Failure")
                 {
                     Response.status = "Failure"; Response.message = "Token Failure"
-                    Response.data=rows[0][0].Result
+                    Response.data=rows[0][0].result
                     res.send(Response);
                 }
                 else{
@@ -80,15 +80,15 @@ exports.bookOrder = (req,res)=>{
                     res.send(Response);
                 }
                 else {
-                    if(rows[0][0].Result=="Failure")
+                    if(rows[0][0].result=="Failure")
                     {
                         Response.status = "Failure"; Response.message = "Token Failure"
-                        Response.data=rows[0][0].Result
+                        Response.data=rows[0][0].result
                         res.send(Response);
                     }
                     else{
                         Response.status = "Success"; Response.message = "Ordered successfully"
-                        Response.data=rows[0][0].Result
+                        Response.data=rows[0][0].result
                         res.send(Response);
                     }    
                 }
