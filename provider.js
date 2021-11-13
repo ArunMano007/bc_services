@@ -117,19 +117,13 @@ exports.listProviders = (req, res) => {
         Response.status = "ERR";
         Response.message = "Query Error";
         res.send(Response);
-      } else {
-        if (rows[0][0].result == "Failure") {
-          Response.status = "Failure";
-          Response.message = "Invalid Credentials";
-          Response.data = rows[0][0].result;
-          res.send(Response);
-        } else {
+      } 
+       else {
           Response.status = "Success";
           Response.message = "Listed Successfully";
           Response.data = rows;
           res.send(Response);
         }
-      }
       con.release();
     });
   });
