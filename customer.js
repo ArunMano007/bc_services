@@ -25,15 +25,15 @@ exports.loginCustomer = (req,res)=>{
                 res.send(Response);
             }
             else {
-                if(rows[0][0].result=="Failure")
+                if(rows[0][0].Result=="Failure")
                 {
                     Response.status = "Failure"; Response.message = "Invalid Credentials"
-                    Response.data=rows[0][0].result
+                    Response.data=rows[0][0].Result
                     res.send(Response);
                 }
                 else{
                     Response.status = "Success"; Response.message = "Login Successfully"
-                    Response.data=rows[0][0].result
+                    Response.data=rows[0][0].Result
                     res.send(Response);
                 }
 
